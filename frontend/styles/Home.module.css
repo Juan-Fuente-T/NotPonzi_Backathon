@@ -1,0 +1,561 @@
+/* <uniquifier>: Use a unique and descriptive class name
+<weight>: Use a value from 400 to 900*/
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap");
+/* .orbitron-<uniquifier> {
+  font-family: "Orbitron", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: <weight>;
+  font-style: normal;
+} */
+.body {
+}
+.mainContainer {
+  font-family: Orbitron, Verdana, Geneva, Tahoma, sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+}
+.mainContainer h1 {
+  padding-top: 15%;
+  font-size: 5.5rem;
+  color: #e42575;
+}
+.mainContainer p {
+  font-size: 1.8rem;
+  text-align: center;
+  color: #f5f3f7;
+  margin-top: 10%;
+}
+.textContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 750px;
+  border: 1px solid #e42575;
+  border-radius: 8px;
+  padding: 1%;
+  margin: 3%;
+  margin-top: 15%;
+}
+.textContainer p {
+  font-size: 2em;
+  font-weight: 500;
+  padding: 2%;
+  margin: 2%;
+  color: #e42575;
+}
+.button {
+  background-color: rgb(243, 235, 235);
+}
+
+.main {
+  background-color: #3f4641;
+  color: #f5f3f7;
+}
+
+.containerTitle {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 5%;
+  font-family: Orbitron, Verdana, Geneva, Tahoma, sans-serif;
+}
+.containerTitle h1 {
+  font-size: 5em;
+  font-weight: 500;
+  padding: 2%;
+  margin: 2%;
+  color: #e42575;
+}
+.containerTitle p {
+  font-size: 1.2em;
+  font-weight: 500;
+  padding: 1%;
+  /* margin: 2%; */
+  color: #f5f3f7;
+}
+.textContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 5%;
+}
+.textContainer p {
+  font-size: 2em;
+  font-weight: 500;
+  padding: 2%;
+  margin: 2%;
+  color: #e42575;
+}
+
+.logo {
+  max-width: 220px;
+}
+.containerCrear {
+  /* width: 1500px; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: auto;
+  padding: 7%;
+  /* border: 3px solid #48c2a2; */
+  border-radius: 8px;
+  margin-top: 3%;
+}
+
+.containerEscrow {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.containerCrear label {
+  width: 40%;
+  text-align: center;
+  margin: 5%;
+  margin-bottom: 1%;
+}
+
+/* .containerEscrow input {
+  width: 20px;
+  text-align: center;
+  margin-top: 10px;
+  background-color: rgb(0, 0, 255);
+} */
+
+.containerCrear button {
+  font-size: 1rem;
+  color: #f5f3f7;
+  height: 35px;
+  width: 150px;
+  margin: 2%;
+  background-color: #e42575;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 3%;
+}
+.inputs {
+  /* width: 1500px; */
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  /* height: 100px; */
+  width: auto;
+  padding: 7%;
+  border: 1px solid #e42575;
+  /* border: 3px solid #48c2a2; */
+  border-radius: 8px;
+  padding: 10px 5%;
+  margin: 1%;
+}
+.containerApprove {
+  /* width: 1500px; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* height: 100px; */
+  width: 50%;
+  border: 1px solid #e42575;
+  border-radius: 8px;
+  padding: 10px 5%;
+  margin: auto;
+  /* margin: 1%; */
+}
+
+.containerApprove button {
+  font-size: 1.2rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-content: center;
+  align-self: center;
+  margin: 20px 10px;
+  padding: 5px;
+  border-radius: 6px;
+  border: none;
+}
+.containerApprove input {
+  width: 60%;
+}
+
+.inputs button {
+  font-size: 1rem;
+  color: #f5f3f7;
+  height: 35px;
+  width: 180px;
+  margin: 2%;
+  background-color: #e42575;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.inputs label {
+  font-size: 1rem;
+  color: #f5f3f7;
+  height: 35px;
+  width: 180px;
+  margin: 2%;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* float: right; */
+  padding: 5px;
+}
+
+.containerCrear input {
+  font-size: 1.2em;
+  text-align: right;
+  height: 35px;
+  width: 40%;
+  border-radius: 5px;
+  margin: 2%;
+  border: 3px solid #e42575;
+}
+.containerCompletar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 2%;
+  padding: 5%;
+  border: 1px solid #e42575;
+  border-radius: 8px;
+}
+.containerCompletar button {
+  font-size: 1rem;
+  color: #f5f3f7;
+  height: 35px;
+  width: 150px;
+  margin: 2%;
+  background-color: #e42575;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.containerCompletar input {
+  font-size: 1.2em;
+  text-align: right;
+  height: 35px;
+  width: 180px;
+  border-radius: 5px;
+  margin: 2%;
+}
+
+.containerData {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  /* padding: 3%; */
+}
+/* .containerData h1 {
+  margin: 3% 0px;
+} */
+.containerData p {
+  font-size: 1.5rem;
+  margin: 3% 0px;
+}
+.containerData input {
+  font-size: 1.5rem;
+  margin: 3% 0px;
+}
+.containerData button {
+  font-size: 1.5rem;
+  margin: 3% 0px;
+  cursor: pointer;
+}
+.withdrawButton {
+  display: flex;
+  justify-content: center;
+  height: 40px;
+  width: 20rem;
+  border-radius: 6px;
+  padding: 2%;
+  cursor: pointer;
+  align-items: center;
+  border: none;
+}
+
+.containerLastEscrow {
+  color: #f5f3f7;
+  padding: 2%;
+  border: 1px solid #e42575;
+  background-color: #262626;
+  border-radius: 8px;
+  margin-top: 6%;
+}
+
+.lastEscrowTitle {
+  text-align: center;
+  font-size: 1.5rem;
+}
+
+.lastEscrowData {
+}
+.lastEscrowData p {
+  /* border: 1px solid #e42575; */
+  font-size: 1rem;
+  height: 55px;
+  padding: 0px 10px;
+  align-content: center;
+  background-color: #3f4641;
+  border-radius: 8px;
+}
+/* .containerRefunds{
+  color: #f5f3f7;
+  padding: 2%;
+  border: 1px solid #e42575;
+  background-color: #262626;
+  border-radius: 8px;
+} */
+
+.containerEscrowOwner {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.containerEscrowOwner input {
+  width: 50%;
+  /* margin: 5%; */
+  /* margin-bottom: 2%; */
+}
+
+.containerReleases,
+.containerRefunds,
+.containerWithdraw {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  /* align-content: center; */
+  align-items: center;
+  text-align: center;
+  color: #f5f3f7;
+  padding: 2%;
+  border: 1px solid #e42575;
+  background-color: #353835;
+  border-radius: 8px;
+  margin: 20px auto;
+  width: 90%;
+}
+
+.divRelease {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  /* align-content: center; */
+  align-items: center;
+  text-align: center;
+  width: 40%;
+}
+
+.containerRefunds button,
+.containerReleases button {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  font-size: 1rem;
+  color: #f5f3f7;
+  height: 35px;
+  width: 150px;
+  margin: 2%;
+  background-color: #e42575;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.containerRefunds input,
+.containerReleases input {
+  align-items: flex-end;
+  width: 15%;
+  /* border: 1px solid #e42575; */
+  border: none;
+  border-radius: 4px;
+  margin: 0px 10px;
+}
+.containerRefunds label,
+.containerReleases label {
+  width: 65%;
+}
+.approve_addStable {
+  display: flex;
+  margin: 20px 10px;
+}
+.approve_addStable input,
+.approve_addStable button {
+  font-size: 1.2rem;
+  align-items: center;
+  align-content: center;
+  align-self: center;
+  margin: 20px 10px;
+  padding: 5px;
+  border-radius: 6px;
+  border: none;
+}
+
+/* Enable hover only on non-touch devices */
+@media (hover: hover) and (pointer: fine) {
+  .card:hover {
+    background: rgba(var(--card-rgb), 0.1);
+    border: 1px solid rgba(var(--card-border-rgb), 0.15);
+  }
+
+  .card:hover span {
+    transform: translateX(4px);
+  }
+}
+
+@media (prefers-reduced-motion) {
+  .card:hover span {
+    transform: none;
+  }
+}
+
+.flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.flex > button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: var(--border-radius);
+  background: rgba(var(--card-rgb), 0.1);
+  border: 1px solid rgba(var(--card-border-rgb), 0.15);
+  transition: background 200ms, border 200ms;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.flex > button:hover {
+  background: rgba(var(--card-rgb), 0.2);
+  border: 1px solid rgba(var(--card-border-rgb), 0.25);
+}
+
+/* Mobile */
+@media (max-width: 700px) {
+  .content {
+    padding: 4rem;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    margin-bottom: 120px;
+    max-width: 320px;
+    text-align: center;
+  }
+
+  .card {
+    padding: 1rem 2.5rem;
+  }
+
+  .card h2 {
+    margin-bottom: 0.5rem;
+  }
+
+  .center {
+    padding: 8rem 0 6rem;
+  }
+
+  .center::before {
+    transform: none;
+    height: 300px;
+  }
+
+  .description {
+    font-size: 0.8rem;
+  }
+
+  .description a {
+    padding: 1rem;
+  }
+
+  .description p,
+  .description div {
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    width: 100%;
+  }
+
+  .description p {
+    align-items: center;
+    inset: 0 0 auto;
+    padding: 2rem 1rem 1.4rem;
+    border-radius: 0;
+    border: none;
+    border-bottom: 1px solid rgba(var(--callout-border-rgb), 0.25);
+    background: linear-gradient(
+      to bottom,
+      rgba(var(--background-start-rgb), 1),
+      rgba(var(--callout-rgb), 0.5)
+    );
+    background-clip: padding-box;
+    backdrop-filter: blur(24px);
+  }
+
+  .description div {
+    align-items: flex-end;
+    pointer-events: none;
+    inset: auto 0 0;
+    padding: 2rem;
+    height: 200px;
+    background: linear-gradient(
+      to bottom,
+      transparent 0%,
+      rgb(var(--background-end-rgb)) 40%
+    );
+    z-index: 1;
+  }
+}
+
+/* Tablet and Smaller Desktop */
+@media (min-width: 701px) and (max-width: 1120px) {
+  .grid {
+    grid-template-columns: repeat(2, 50%);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .vercelLogo {
+    filter: invert(1);
+  }
+
+  .logo {
+    filter: invert(1) drop-shadow(0 0 0.3rem #ffffff70);
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(360deg);
+  }
+
+  to {
+    transform: rotate(0deg);
+  }
+}
