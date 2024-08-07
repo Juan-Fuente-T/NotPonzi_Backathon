@@ -158,6 +158,13 @@
   padding: 10px 5%;
   margin: 1%;
 }
+
+.input[type="radio"]:checked + label {
+  color: blue; /* Cambia esto al color que desees */
+
+  font-size: xx-large;
+}
+
 .containerApprove {
   /* width: 1500px; */
   display: flex;

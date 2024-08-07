@@ -2,11 +2,11 @@
 pragma solidity ^0.8.8;
 
 import {Test, console, console2} from "forge-std/Test.sol";
-import { TronPay } from "../src/TronPay.sol";
+import { Towerbank } from "../src/Towerbank.sol";
 import { USDTToken } from "../src/USDTToken.sol";
 import { IERC20 } from "../src/IERC20.sol";
-contract TronPayTest is Test {
-    TronPay public myEscrow;
+contract TowerbankTest is Test {
+    Towerbank public myEscrow;
     USDTToken  public token;
     address alice;
     address bob;
@@ -28,7 +28,7 @@ contract TronPayTest is Test {
         uint256 value; //Monto compra
         uint256 sellerfee; //Comision vendedor
         uint256 buyerfee; //Comision comprador
-        bool escrowNative;//De Escrow, USDT o TRX
+        bool escrowNative;//De Escrow, USDT o ETH
         IERC20 currency; //Moneda
         EscrowStatus status; //Estado
     }
@@ -43,7 +43,7 @@ contract TronPayTest is Test {
     //     bob = 0x1D96F2f6BeF1202E4Ce1Ff6Dad0c2CB002861d3e;
     //     startHoax(alice, 100000000);
     //     token = new USDTToken();
-    //     myEscrow = new TronPay(address(token));
+    //     myEscrow = new Towerbank(address(token));
     //     myEscrow.addStablesAddresses(address(token));
     // }
     function setUp() public {
@@ -53,7 +53,7 @@ contract TronPayTest is Test {
             vm.startPrank(alice);
             token = new USDTToken();
             vm.stopPrank();
-            myEscrow = new TronPay(address(token));
+            myEscrow = new Towerbank(address(token));
             myEscrow.addStablesAddresses(address(token));
             startHoax(alice, 100000000);
         }
@@ -95,16 +95,16 @@ contract TronPayTest is Test {
         
         token.approve(address(myEscrow), 50);
         // vm.expectEmit();
-        // emit EscrowDeposit(0, TronPay.myEscrow.getEscrow(0));
+        // emit EscrowDeposit(0, Towerbank.myEscrow.getEscrow(0));
     //     emit EscrowDeposit(0, {
     //     alice; //Comprador
     //     bob; //Vendedor
     //     50; //Monto compra
     //     0; //Comision vendedor
     //     0; //Comision comprador
-    //     false;//De Escrow, USDT o TRX
+    //     false;//De Escrow, USDT o ETH
     //     IERC20(address(token)); //Moneda
-    //     TronPay.EscrowStatus.Funded; //Estado
+    //     Towerbank.EscrowStatus.Funded; //Estado
     // });
         // emit EscrowDeposit(0, Escrow escrow);
         myEscrow.createEscrow(payable(bob), 50, IERC20(address(token)));
@@ -113,7 +113,7 @@ contract TronPayTest is Test {
         assertEq(token.balanceOf(alice), 49999999999999999999999950);
         assertEq(myEscrow.getValue(0), 50);
 
-        TronPay.Escrow memory escrow = myEscrow.getEscrow(0);
+        Towerbank.Escrow memory escrow = myEscrow.getEscrow(0);
         assertEq(escrow.buyer, alice);
         assertEq(escrow.seller, bob);
         assertEq(escrow.escrowNative, false);
@@ -156,7 +156,7 @@ contract TronPayTest is Test {
         assertEq(token.balanceOf(alice), 49999999999999999999999900);
         vm.stopPrank();
 
-        TronPay.Escrow memory escrow  = myEscrow.getEscrow(0);
+        Towerbank.Escrow memory escrow  = myEscrow.getEscrow(0);
         assertEq(escrow.buyer, alice);
         assertEq(escrow.seller, bob);
         assertEq(address(escrow.currency), address(token));
@@ -166,7 +166,7 @@ contract TronPayTest is Test {
         myEscrow.releaseEscrowOwner(0);
         assertEq(token.balanceOf(bob), 100);
 
-        TronPay.Escrow memory escrow1  = myEscrow.getEscrow(0);
+        Towerbank.Escrow memory escrow1  = myEscrow.getEscrow(0);
         assertEq(escrow1.buyer, address(0));
         assertEq(escrow1.seller, address(0));
         assertEq(address(escrow1.currency), address(0));
@@ -192,7 +192,7 @@ contract TronPayTest is Test {
         myEscrow.createEscrow(payable(bob), 100, IERC20(address(token)));
         assertEq(token.balanceOf(alice), 49999999999999999999999900);
 
-        TronPay.Escrow memory escrow  = myEscrow.getEscrow(0);
+        Towerbank.Escrow memory escrow  = myEscrow.getEscrow(0);
         assertEq(escrow.buyer, alice);
         assertEq(escrow.seller, bob);
         assertEq(address(escrow.currency), address(token));
@@ -202,7 +202,7 @@ contract TronPayTest is Test {
         myEscrow.releaseEscrow(0);
         assertEq(token.balanceOf(bob), 100);
 
-        TronPay.Escrow memory escrow1  = myEscrow.getEscrow(0);
+        Towerbank.Escrow memory escrow1  = myEscrow.getEscrow(0);
         assertEq(escrow1.buyer, address(0));
         assertEq(escrow1.seller, address(0));
         assertEq(address(escrow1.currency), address(0));
@@ -241,7 +241,7 @@ contract TronPayTest is Test {
         assertEq(myEscrow.getValue(0), 50);
         assertEq(alice.balance, 99999950);
         
-        TronPay.Escrow memory escrow  = myEscrow.getEscrow(0);
+        Towerbank.Escrow memory escrow  = myEscrow.getEscrow(0);
         // assertEq(escrow.status, 1);
         assertEq(escrow.buyer, alice);
         assertEq(escrow.seller, bob);
@@ -285,7 +285,7 @@ contract TronPayTest is Test {
         assertEq(myEscrow.getValue(0), 50);
         assertEq(alice.balance, 99999950);
     
-        TronPay.Escrow memory escrow  = myEscrow.getEscrow(0);
+        Towerbank.Escrow memory escrow  = myEscrow.getEscrow(0);
         assertEq(escrow.buyer, alice);
         assertEq(escrow.seller, bob);
         assertEq(address(escrow.currency), address(0));
@@ -296,7 +296,7 @@ contract TronPayTest is Test {
         myEscrow.releaseEscrowOwnerNativeCoin(0);
         assertEq(bob.balance, 50);
 
-        TronPay.Escrow memory escrow1  = myEscrow.getEscrow(0);
+        Towerbank.Escrow memory escrow1  = myEscrow.getEscrow(0);
         assertEq(escrow1.buyer, address(0));
         assertEq(escrow1.seller, address(0));
         assertEq(address(escrow1.currency), address(0));
@@ -329,7 +329,7 @@ contract TronPayTest is Test {
         assertEq(myEscrow.getValue(0), 50);
         assertEq(alice.balance, 99999950);
 
-        TronPay.Escrow memory escrow  = myEscrow.getEscrow(0);
+        Towerbank.Escrow memory escrow  = myEscrow.getEscrow(0);
         assertEq(escrow.buyer, alice);
         assertEq(escrow.seller, bob);
         assertEq(address(escrow.currency), address(0));
@@ -339,7 +339,7 @@ contract TronPayTest is Test {
         myEscrow.releaseEscrowNativeCoin(0);
         assertEq(bob.balance, 50);
 
-        TronPay.Escrow memory escrow1  = myEscrow.getEscrow(0);
+        Towerbank.Escrow memory escrow1  = myEscrow.getEscrow(0);
         assertEq(escrow1.buyer, address(0));
         assertEq(escrow1.seller, address(0));
         assertEq(address(escrow1.currency), address(0));
@@ -373,7 +373,7 @@ contract TronPayTest is Test {
 
         vm.stopPrank();
 
-        TronPay.Escrow memory escrow  = myEscrow.getEscrow(0);
+        Towerbank.Escrow memory escrow  = myEscrow.getEscrow(0);
         assertEq(escrow.buyer, alice);
         assertEq(escrow.seller, bob);
         assertEq(address(escrow.currency), address(token));
@@ -386,7 +386,7 @@ contract TronPayTest is Test {
         assertEq(token.balanceOf(alice), 50000000000000000000000000);
         assertEq(token.balanceOf(bob), 0);
 
-        TronPay.Escrow memory escrow1  = myEscrow.getEscrow(0);
+        Towerbank.Escrow memory escrow1  = myEscrow.getEscrow(0);
         assertEq(escrow1.buyer, address(0));
         assertEq(escrow1.seller, address(0));
         assertEq(address(escrow1.currency), address(0));
@@ -424,7 +424,7 @@ contract TronPayTest is Test {
         
         vm.stopPrank();
 
-        TronPay.Escrow memory escrow  = myEscrow.getEscrow(0);
+        Towerbank.Escrow memory escrow  = myEscrow.getEscrow(0);
         assertEq(escrow.buyer, alice);
         assertEq(escrow.seller, bob);
         assertEq(address(escrow.currency), address(0));
@@ -437,7 +437,7 @@ contract TronPayTest is Test {
         assertEq(alice.balance, 100000000);
         assertEq(bob.balance, 0);
 
-        TronPay.Escrow memory escrow1  = myEscrow.getEscrow(0);
+        Towerbank.Escrow memory escrow1  = myEscrow.getEscrow(0);
         assertEq(escrow1.buyer, address(0));
         assertEq(escrow1.seller, address(0));
         assertEq(address(escrow1.currency), address(0));
@@ -578,7 +578,7 @@ contract TronPayTest is Test {
         myEscrow.createEscrow(payable(bob), 50, IERC20(address(token)));
         assertEq(token.balanceOf(alice), 49999999999999999999999950);
 
-        TronPay.Escrow memory escrowInfo  = myEscrow.getEscrow(0);
+        Towerbank.Escrow memory escrowInfo  = myEscrow.getEscrow(0);
         assertEq(escrowInfo.buyer, alice);
         assertEq(escrowInfo.seller, bob);
         assertEq(escrowInfo.value, 50);
@@ -608,8 +608,8 @@ contract TronPayTest is Test {
         token.approve(address(myEscrow), 50);
         myEscrow.createEscrow(payable(bob), 50, IERC20(address(token)));
         assertEq(token.balanceOf(alice), 49999999999999999999999950);
-        TronPay.EscrowStatus state = myEscrow.getState(0);
-        require(state == TronPay.EscrowStatus.Funded, "Estado del escrow no es Funded");
+        Towerbank.EscrowStatus state = myEscrow.getState(0);
+        require(state == Towerbank.EscrowStatus.Funded, "Estado del escrow no es Funded");
     }
 ////////////////////////////////////TEST ISESCROWNATIVE////////////////////////////////// 
     function testIsEscrowNative() public{

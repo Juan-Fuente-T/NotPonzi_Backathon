@@ -10,10 +10,10 @@ import './Context.sol';
 import './Ownable.sol';
 
 /**
- * @title TronPay
+ * @title Towerbank
  * @dev A smart contract for managing escrow transactions between buyers and sellers.
  */
-contract TronPay is ReentrancyGuard, Ownable {
+contract Towerbank is ReentrancyGuard, Ownable {
     using SafeERC20 for IERC20;
     // 0.1 es 100 porque se multiplica por mil => 0.1 X 1000 = 100
     // Fee charged to the seller for each transaction (in basis points)
@@ -82,7 +82,7 @@ contract TronPay is ReentrancyGuard, Ownable {
         uint256 value; //Monto compra
         uint256 sellerfee; //Comision vendedor
         uint256 buyerfee; //Comision comprador
-        bool escrowNative;//De Escrow, USDT o TRX
+        bool escrowNative;//De Escrow, USDT o ETH
         IERC20 currency; //Moneda
         EscrowStatus status; //Estado
     }
@@ -416,7 +416,7 @@ contract TronPay is ReentrancyGuard, Ownable {
         return _escrow.value;
     }
     /**
-    * @dev Retrieves the type of an escrow based on the provided order ID. Can be native, TRX or with token
+    * @dev Retrieves the type of an escrow based on the provided order ID. Can be native, ETH or with token
     * @param _orderId The ID of the order.
     * @return bool The type of the escrow. True for native.
     */
@@ -525,7 +525,7 @@ contract TronPay is ReentrancyGuard, Ownable {
             (escrows[_orderId].sellerfee * 10 ** _decimals)) /
             (100 * 10 ** _decimals)) / 1000;
 
-        //Registra los fees obtenidos para TronPay
+        //Registra los fees obtenidos para Towerbank
         feesAvailableNativeCoin += _amountFeeBuyer + _amountFeeSeller;
 
         // write as complete, in case transfer fails

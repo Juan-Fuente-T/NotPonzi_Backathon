@@ -1,8 +1,8 @@
 import {
   USDTAddress,
   USDTABI,
-  TronPayAddress,
-  TronPayABI,
+  TowerbankAddress,
+  TowerbankABI,
 } from "@/constants";
 import { ethers } from 'ethers';
 import { ConnectButton } from "@rainbow-me/rainbowkit";
@@ -14,14 +14,15 @@ import { readContract, waitForTransaction, writeContract } from "wagmi/actions";
 import styles from "../styles/Home.module.css";
 import { Inter } from "next/font/google";
 import ModalResumen from './modalResumen'; 
+import FormularioAnuncio from './formularioAnuncio'
 // import FormularioAnuncio from './formularioAnuncio'; 
-import TronWeb from 'tronweb';
+
 
 const inter = Inter({
   subsets: ["latin"],
   display: "swap",
 });
-TronWeb 
+
 export default function Home() {
  
   // Check if the user's wallet is connected, and it's address using Wagmi's hooks.
@@ -58,8 +59,9 @@ export default function Home() {
     maximo: 0,
     minimo: 0,
     payment_mode: "",
-    usdtSeleccionado: false,
-    trxSeleccionado: false,
+    crypto: "usdt" || "eth",
+    // usdtSeleccionado: false,
+    // ethSeleccionado: false,
     location: "",
     conditions: ""
   });
@@ -72,8 +74,8 @@ export default function Home() {
     try {
       const tx = await writeContract({
       // const tx = await useContractWrite({
-        address: TronPayAddress,
-        abi: TronPayABI,
+        address: TowerbankAddress,
+        abi: TowerbankABI,
         functionName: "createEscrow",
         // args: [0, seller, BigInt(value), USDTAddress],
         args: [seller, ethers.parseEther(value.toString()), USDTAddress],
@@ -95,8 +97,8 @@ export default function Home() {
       setLoading(true);
       try {
         const tx = await writeContract({
-          address: TronPayAddress,
-          abi: TronPayABI,
+          address: TowerbankAddress,
+          abi: TowerbankABI,
           functionName: 'releaseEscrow',
           args: [releaseNumber],      
       });
@@ -116,8 +118,8 @@ export default function Home() {
       setLoading(true);
       try {
         const tx = await writeContract({
-          address: TronPayAddress,
-          abi: TronPayABI,
+          address: TowerbankAddress,
+          abi: TowerbankABI,
           functionName: 'releaseEscrowOwner',
           args: [releaseNumber],      
       });
@@ -137,8 +139,8 @@ export default function Home() {
       setLoading(true);
       try {
         const tx = await writeContract({
-          address: TronPayAddress,
-          abi: TronPayABI,
+          address: TowerbankAddress,
+          abi: TowerbankABI,
           functionName: 'refundBuyer',
           args: [refundNumber],      
       });
@@ -173,8 +175,8 @@ export default function Home() {
       try {
         const tx = await writeContract({
         // const tx = await useContractWrite({
-          address: TronPayAddress,
-          abi: TronPayABI,
+          address: TowerbankAddress,
+          abi: TowerbankABI,
           functionName: "createEscrowNativeCoin",
           // args: [0, seller, BigInt(value), USDTAddress],
           args: [seller, ethers.parseEther(value.toString())],
@@ -197,8 +199,8 @@ export default function Home() {
       setLoading(true);
       try {
         const tx = await writeContract({
-          address: TronPayAddress,
-          abi: TronPayABI,
+          address: TowerbankAddress,
+          abi: TowerbankABI,
           functionName: 'releaseEscrowNativeCoin',
           args: [releaseNumberNativeC],      
       });
@@ -221,8 +223,8 @@ export default function Home() {
       setLoading(true);
       try {
         const tx = await writeContract({
-          address: TronPayAddress,
-          abi: TronPayABI,
+          address: TowerbankAddress,
+          abi: TowerbankABI,
           functionName: 'releaseEscrowOwnerNativeCoin',
           args: [releaseNumberNativeC],      
       });
@@ -244,8 +246,8 @@ export default function Home() {
           setLoading(true);
           try {
             const tx = await writeContract({
-              address: TronPayAddress,
-              abi: TronPayABI,
+              address: TowerbankAddress,
+              abi: TowerbankABI,
               functionName: 'refundBuyerNativeCoin',
               args: [refundNumberNativeC],      
           });
@@ -265,8 +267,8 @@ export default function Home() {
           setLoading(true);
           try {
             const tx = await writeContract({
-              address: TronPayAddress,
-              abi: TronPayABI,
+              address: TowerbankAddress,
+              abi: TowerbankABI,
               functionName: 'withdrawFees',
               args: [USDTAddress], //Recoge las Fees guardadas correpondientes a USDT 
           });
@@ -286,8 +288,8 @@ export default function Home() {
           setLoading(true);
           try {
             const tx = await writeContract({
-              address: TronPayAddress,
-              abi: TronPayABI,
+              address: TowerbankAddress,
+              abi: TowerbankABI,
               functionName: 'withdrawFeesNativeCoin',    
           });
         
@@ -303,23 +305,23 @@ export default function Home() {
         }
     /// ================== Fee Buyer ==================
     const feeBuyer = useContractRead({
-      abi: TronPayABI,
-      address: TronPayAddress,
+      abi: TowerbankABI,
+      address: TowerbankAddress,
   functionName: "feeBuyer",
 });
 let fee = parseFloat(feeBuyer.data);
-// setVersion(versionTronPay.data);
+// setVersion(versionTowerbank.data);
 // console.log("FEE BUYER: ", parseInt(fee));
 // console.log("FeeBuyer:", parseInt(feeBuyer.data));
 
     /// ================== Version Escrow ==================
-const versionTronPay = useContractRead({
-  abi: TronPayABI,
-  address: TronPayAddress,
+const versionTowerbank = useContractRead({
+  abi: TowerbankABI,
+  address: TowerbankAddress,
   functionName: "version",
 });
-// setVersion(versionTronPay.data);
-// console.log("Version:", versionTronPay.data);
+// setVersion(versionTowerbank.data);
+// console.log("Version:", versionTowerbank.data);
 
 
   /// ================== Añadir Stable Coin ==================
@@ -327,8 +329,8 @@ const versionTronPay = useContractRead({
     setLoading(true);
     try {
       const tx = await writeContract({
-        address: TronPayAddress,
-        abi: TronPayABI,
+        address: TowerbankAddress,
+        abi: TowerbankABI,
         functionName: "addStablesAddresses",
         args: [USDTAddress],
       });
@@ -365,8 +367,8 @@ if (userBalance.data != null){
 
 /// ================== Escrow 0 Value  ==================
   const escrowValue = useContractRead({
-    abi: TronPayABI,
-    address: TronPayAddress,
+    abi: TowerbankABI,
+    address: TowerbankAddress,
     functionName: "getValue",
     args: [0],
   });
@@ -375,8 +377,8 @@ if (userBalance.data != null){
   /// ================== Escrow 0 State  ==================
   // Fetch the state of Escrow
   const escrowState = useContractRead({
-    abi: TronPayABI,
-    address: TronPayAddress,
+    abi: TowerbankABI,
+    address: TowerbankAddress,
     functionName: "getState",
     args: [0],
   });
@@ -385,8 +387,8 @@ if (userBalance.data != null){
   /// ================== Get OrderID  ==================
   // Fetch the state of Escrow
   const orderId = useContractRead({
-    abi: TronPayABI,
-    address: TronPayAddress,
+    abi: TowerbankABI,
+    address: TowerbankAddress,
     functionName: "orderId",
   });
   let newEscrow= parseInt(orderId.data);
@@ -397,8 +399,8 @@ if (userBalance.data != null){
   /// ================== Get scrow 0E  ==================
   // Fetch the state of Escrow
   const lastEscrow = useContractRead({
-    abi: TronPayABI,
-    address: TronPayAddress,
+    abi: TowerbankABI,
+    address: TowerbankAddress,
     functionName: "getEscrow",
     args: [newEscrow - 1],
   });
@@ -410,8 +412,8 @@ if (userBalance.data != null){
   /// ================== Owner del protocolo  ==================
   const owner = useContractRead({
     
-    abi: TronPayABI,
-    address: TronPayAddress,
+    abi: TowerbankABI,
+    address: TowerbankAddress,
     functionName: "owner",
   });
   // console.log("OWNER",owner.data);
@@ -421,14 +423,14 @@ if (userBalance.data != null){
     abi: USDTABI,
     address: USDTAddress,
     functionName: "allowance",
-    args: [address, TronPayAddress]//esta es la address del protocolo
+    args: [address, TowerbankAddress]//esta es la address del protocolo
   })
   if(allowance && allowance.data){
     // console.log("ALLOWANCE: ", formatEther(allowance.data));
 
   }
 
-  /// ================== Approve el user a Tronpay  ==================
+  /// ================== Approve el user a Towerbank  ==================
     // Approve Necesita introducir numero con 6 decimales
     async function approve() {
       setLoading(true);
@@ -437,7 +439,7 @@ if (userBalance.data != null){
           address: USDTAddress,
           abi: USDTABI,
           functionName: 'approve',
-          args: [TronPayAddress, ethers.parseEther(approveValue.toString())],     
+          args: [TowerbankAddress, ethers.parseEther(approveValue.toString())],     
       });
         // Espera a que la transacción se confirme
         const receipt = await waitForTransaction(tx);//funciona bien, no lo uso ahora
@@ -454,7 +456,7 @@ if (userBalance.data != null){
 
 
   const handleChange = (e) => {
-    const { name, value, type } = e.target;
+    const { name, type, value } = e.target;
   
     if (type === "radio" && name === "cripto") {
       setDatosModal(prevState => ({
@@ -493,7 +495,7 @@ if (userBalance.data != null){
   {isModalOpen && (
     <ModalResumen
       onCloseModal={() => setIsModalOpen(false)}
-      // cripto={datosModal.usdtSeleccionado? "USDT" : "TRX"}
+      // cripto={datosModal.usdtSeleccionado? "USDT" : "ETH"}
       cripto={datosModal.usdtSeleccionado? "USDT" : "ETH"}
       amount={datosModal.amount}
       price={datosModal.price}
@@ -548,8 +550,57 @@ if (userBalance.data != null){
   }
 
 
-  const crearAnuncio = (datosModal) => {
-    // Aquí va la lógica para crear la oferta
+  const crearAnuncio = async (datosModal) => {
+    // Asegrarse de que amount y price sean números decimales
+    let amountDecimal = parseFloat(datosModal.amount);
+    let priceDecimal = parseFloat(datosModal.price);
+
+    // Verificar que ambos valores sean válidos
+    if (isNaN(amountDecimal) || isNaN(priceDecimal)) {
+      throw new Error('Amount or price is not a valid number.');
+    }
+    // Calcula el total multiplicando amount por price
+    const totalDecimal = amountDecimal * priceDecimal;  
+
+    // Determinar el factor de decimales basado en la criptomoneda
+    let decimalsFactor = 1; // Valor predeterminado
+    
+    setLoading(true);
+    try {
+    if (datosModal.crypto === 'eth') {
+      decimalsFactor = Math.pow(10, 18); // Factor para ETH
+      
+      // Aplicar el factor de decimales al total
+      const totalInt = Math.round(totalDecimal * decimalsFactor);
+        const tx = await writeContract({
+          address: TowerbankAddress,
+          abi: TowerbankABI,
+          functionName: 'createEscrowNativeCoin',
+          args: [ address, totalInt],
+          value: totalInt.toString(), // Enviar Ether directamente      
+        });
+      } else if (datosModal.crypto === 'usdt') {
+        decimalsFactor = Math.pow(10, 6); // Factor para USDT
+
+        // Aplicar el factor de decimales al total
+        const totalInt = Math.round(totalDecimal * decimalsFactor);
+        const tx = await writeContract({
+          address: TowerbankAddress,
+          abi: TowerbankABI,
+          functionName: 'createEscrow',
+          args: [ address, totalInt, '0x199Dd2CF531F8a1969dbd2c8c33dC7D690811df4' ],      
+        });
+      }
+        
+        // Espera a que la transacción se confirme
+        const receipt = await waitForTransaction(tx);
+        window.alert("Se ha creado la oferta")
+        console.log('Transacción confirmada:', receipt);
+      } catch (error) {
+      console.error('Error en la creación de la oferta:', error);
+      window.alert(error);
+    }
+    setLoading(false);
     console.log("Creando oferta con datos:", datosModal);
     // cerrarModal(); 
     // Ejemplo: enviar los datos a una API o realizar otra acción
@@ -558,9 +609,9 @@ if (userBalance.data != null){
   function renderTabs() {
     if (selectedTab === "Anuncio USDT") {
       return renderCreateUsdtOffer();
-    // } else if (selectedTab === "Anuncio TRX") {
+    // } else if (selectedTab === "Anuncio ETH") {
     } else if (selectedTab === "Anuncio ETH") {
-      // return renderCreateTrxOffer();
+      // return renderCreateEthOffer();
       return renderCreateEthOffer();
     }
     return null;
@@ -578,86 +629,55 @@ if (userBalance.data != null){
 
       return (
         <div className={styles.description}>
-          You do not own any CryptoDevs NFTs. <br />
-          <b>You cannot create or vote on proposals</b>
+          No estas conectado,  <br />
+          <b>por favor conéctate</b>
         </div>
       );
     } else {
         return (
+            <><FormularioAnuncio
+            datosModal={datosModal}
+            handleSubmitModal = {handleSubmitModal}
+            // crearAnuncio={crearAnuncio} 
+            handleChange={handleChange}
+            />
             <div className={styles.description}>
-            <form  onSubmit={handleSubmitModal}>
-            <div className={styles.container}>
-                <input type="radio" id="usdt" name="crypto" value="usdt" checked={datosModal.usdt} onChange={handleChange}></input>
-                <label for="usdt">USDT</label><br></br>
-        {/*         <input type="radio" id="trx" name="crypto" value="trx" checked={datosModal.trx} onChange={handleChange}></input> */}
-                <input type="radio" id="eth" name="crypto" value="eth" checked={datosModal.eth} onChange={handleChange}></input>
-        {/*         <label for="trx">TRX</label> */}
-                <label for="eth">ETH</label>
-            </div>
-            <div>
-                <label for="amount">Cantidad</label><br></br>
-                <input type="number" id="amount" name="amount" min="0.001"placeholder="Cantidad" value={datosModal.amount}
-                  onChange={handleChange}></input>
+            <form onSubmit={handleSubmitModal}>
+              <div className={styles.container}>
+                <input type="radio" id="usdt" name="crypto" value="usdt" checked={datosModal.usdt} onChange={handleChange}></input>
+                <label for="usdt">USDT</label><br></br>
+                {/*         <input type="radio" id="eth" name="crypto" value="eth" checked={datosModal.eth} onChange={handleChange}></input> */}
+                <input type="radio" id="eth" name="crypto" value="eth" checked={datosModal.eth} onChange={handleChange}></input>
+                {/*         <label for="eth">ETH</label> */}
+                <label for="eth">ETH</label>
+              </div>
+              
 
-                <label for="price">Precio por unidad</label><br></br>
-                <input type="number" id="price" name="price" min="0.001" placeholder="Precio unidad en USD" value={datosModal.price}
-                  onChange={handleChange}></input>
-
-                <label for="minimo">Límite máximo de venta</label><br></br>
-                <input type="number" id="maximo" name="maximo" min="0" placeholder="Límite máximo de venta" value={datosModal.maximo}
-                  onChange={handleChange}></input>
-
-                <label for="minimo">Límite mínimo de venta</label><br></br>
-                <input type="number" id="minimo" name="minimo" min="0" placeholder="Límite mínimo de venta" value={datosModal.minimo}
-                  onChange={handleChange}></input>
-
-                <label for="payment_mode">Modo de pago</label><br></br>
-                <div>
-                <select name="payment_mode" value={datosModal.payment_mode}
-                onChange={handleChange}>
-                  <option value="">Seleccione un modo de pago</option>
-                  <option value="efectivo">Efectivo</option>
-                  <option value="tarjeta">Tarjeta</option>
-                  <option value="transferencia_bancaria">Transferencia</option>
-               </select>
-               </div>
-                <label for="location">Ubicación</label><br></br>
-                <input type="text" id="location" name="location" placeholder="Ubicación" 
-                value={datosModal.location} onChange={handleChange}></input>
-                <label for="conditions">Condiciones de la venta</label><br></br>
-                <textarea id="conditions" name="conditions" placeholder="Condiciones de la venta" rows="6" cols="50"
-                value={datosModal.conditions} onChange={handleChange}></textarea> 
-            </div>
-            {/* <input
-                placeholder="0"
-                type="number"
-                onChange={(e) => setFakeNftTokenId(e.target.value)}
-            /> */}
+              
               {/* <button className={styles.button2} onClick={renderCreateUsdtOffer}>
-                 Create
-                </button>  */}
-            <button type="submit">Crear Oferta USDT</button>
-             {/* necesario agregar esto al final de la funcion que que crea la Oferta
-            console.log("Creando oferta con:", formularioDatos);
-          cerrarModal();  */}
-          </form>
-          {/* <FormularioAnuncio handleSubmitModal = {handleSubmitModal}/> */}
-          <div style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 1000 }}>
-          {isModalOpen && (
-        <ModalResumen
-          onCloseModal={() => setIsModalOpen(false)}
-          datosModal={datosModal}
-          crearAnuncio={crearAnuncio}
-        />
-      )}
-      </div>
-        </div>
+       Create
+      </button>  */}
+              <button type="submit">Crear Oferta USDT</button>
+              {/* necesario agregar esto al final de la funcion que crea la Oferta
+   console.log("Creando oferta con:", formularioDatos);
+ cerrarModal();  */}
+            </form>
+            {/* <FormularioAnuncio handleSubmitModal = {handleSubmitModal}/> */}
+            <div style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 1000 }}>
+              {isModalOpen && (
+                <ModalResumen
+                  onCloseModal={() => setIsModalOpen(false)}
+                  datosModal={datosModal}
+                  crearAnuncio={crearAnuncio} />
+              )}
+            </div>
+          </div></>
       );
     }
   }
 
   // Renders the 'View Proposals' tab content
-  // function renderCreateTrxOffer() {
+  // function renderCreateEthOffer() {
   function renderCreateEthOffer() {
     if (loading) {
       return (
@@ -722,9 +742,9 @@ if (userBalance.data != null){
       <div>
         <ConnectButton className={styles.connectButton} />
         <div className={styles.mainContainer}>
-        <h1>TRON PAY</h1>
+        <h1>Towerbank</h1>
         <p>El intercambio de USDT - USD entre particulares</p>
-        <p>De onchain a offchain a través de Tron</p>
+        <p>De onchain a offchain a través de Towerbank</p>
         <div className={styles.textContainer}>
           <p>RÁPIDO</p>
           <p>EFICIENTE</p>
@@ -746,8 +766,8 @@ if (userBalance.data != null){
   return (
     <div className={inter.className}>
       <Head>
-        <title>Tron Pay</title>
-        <meta name="description" content="Tron Pay" />
+        <title>Towerbank</title>
+        <meta name="description" content="Towerbank" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       {/* Your CryptoDevs NFT Balance: {nftBalanceOfUser.data.toString()} */}
@@ -755,10 +775,10 @@ if (userBalance.data != null){
       <div className={styles.main}>
         <div>
           <div className={styles.containerTitle}>
-            <h1 className={styles.title}>Tron Pay</h1>
-            <img className={styles.logo} src="/tron_pay_logo.png" alt="Logo de TronPay, intercambio p2p de criptomonedas" />
+            <h1 className={styles.title}>Towerbank</h1>
+            <img className={styles.logo} src="/tron_pay_logo.png" alt="Logo de Towerbank, intercambio p2p de criptomonedas" />
 
-              <p id="textVersion">Version: {versionTronPay.data}</p>
+              <p id="textVersion">Version: {versionTowerbank.data}</p>
             <p className={styles.description}>Peer to Peer USDT Exchange!</p>
             <p className={styles.description}>Intercambio de USDT peer to peer </p>
           </div>
@@ -795,7 +815,7 @@ if (userBalance.data != null){
                 </div>
                 <div className={styles.buttons}>
                 <button onClick={createEscrow}>Crear Scrow USDT</button> 
-                {/* <button onClick={createEscrowNativeCoin}>Crear Escrow TRX</button> */}
+                {/* <button onClick={createEscrowNativeCoin}>Crear Escrow ETH</button> */}
                 <button onClick={createEscrowNativeCoin}>Crear Scrow ETH</button>
                 </div>
               </div>
@@ -810,15 +830,15 @@ if (userBalance.data != null){
                   value={releaseNumber} onChange={(e) => setReleaseNumber((e.target.value))}></input>
                 </div>
                   <div className={styles.containerEscrow}>
-                    {/* <label htmlFor="price">Número de Escrow TRX a completar</label> */}
+                    {/* <label htmlFor="price">Número de Escrow ETH a completar</label> */}
                     <label htmlFor="price">Número de Escrow ETH a completar</label>
-                    {/* <input  type="number" placeholder="TRX a devolver" min="0" */}
+                    {/* <input  type="number" placeholder="ETH a devolver" min="0" */}
                     <input  type="number" placeholder="ETH a devolver" min="0"
                     value={releaseNumberNativeC} onChange={(e) => setReleaseNumberNativeC((e.target.value))}></input>
                   </div>
                   <div className={styles.buttons}>
                     <button onClick={releaseEscrow}>Release Escrow USDT</button>
-                    {/* <button onClick={releaseEscrowNativeCoin}>Release Escrow TRX</button> */}
+                    {/* <button onClick={releaseEscrowNativeCoin}>Release Escrow ETH</button> */}
                     <button onClick={releaseEscrowNativeCoin}>Release Escrow ETH</button>
                   </div>
               </div>
@@ -840,7 +860,7 @@ if (userBalance.data != null){
               </div>
           <div className={styles.containerData}>
                     
-            {/* <h1 className={styles.title}>Tron Pay</h1> */}
+            {/* <h1 className={styles.title}>Towerbank</h1> */}
             
               <div className={styles.containerLastEscrow}>
                   <div className={styles.lastEscrowTitle}>
@@ -887,13 +907,13 @@ if (userBalance.data != null){
                       </div>
                   </div>
                   <div className={styles.containerEscrowOwner}>
-                    {/* <label htmlFor="price">Número de Escrow TRX a devolver</label> */}
+                    {/* <label htmlFor="price">Número de Escrow ETH a devolver</label> */}
                     <label htmlFor="price">Número de Escrow ETH a devolver</label>
-                    {/* <input type="number" placeholder="Número Escrow TRX" min="0" */}
+                    {/* <input type="number" placeholder="Número Escrow ETH" min="0" */}
                     <input type="number" placeholder="Número Escrow ETH" min="0"
                     value={refundNumberNativeC} onChange={(e) => setRefundNumberNativeC((e.target.value))}></input>
                     <div className={styles.divRelease}>
-                    {/* <button onClick={refundEscrowNativeCoin}>Devolver TRX</button> */}
+                    {/* <button onClick={refundEscrowNativeCoin}>Devolver ETH</button> */}
                     <button onClick={refundEscrowNativeCoin}>Devolver ETH</button>
                     </div>
                   </div>
@@ -902,7 +922,7 @@ if (userBalance.data != null){
                     <p>Liberar escrow al vendedor (Solo Owner)</p>
                   <div className={styles.containerEscrowOwner}>
                     <label htmlFor="price">Número de Escrow USDT a liberar</label>
-                    {/* <input type="number" placeholder="Número Escrow TRX" min="0"  */}
+                    {/* <input type="number" placeholder="Número Escrow ETH" min="0"  */}
                     <input type="number" placeholder="Número Escrow ETH" min="0" 
                     value={releaseNumber} onChange={(e) => setReleaseNumber((e.target.value))}></input>
                     <div className={styles.divRelease}>
@@ -910,13 +930,13 @@ if (userBalance.data != null){
                     </div>
                   </div>
                   <div className={styles.containerEscrowOwner}>
-                    {/* <label htmlFor="price">Número de Escrow TRX a liberar</label> */}
+                    {/* <label htmlFor="price">Número de Escrow ETH a liberar</label> */}
                     <label htmlFor="price">Número de Escrow ETH a liberar</label>
-                    {/* <input type="number" placeholder="Número Escrow TRX" min="0" */}
+                    {/* <input type="number" placeholder="Número Escrow ETH" min="0" */}
                     <input type="number" placeholder="Número Escrow ETH" min="0"
                     value={releaseNumberNativeC} onChange={(e) => setReleaseNumberNativeC((e.target.value))}></input>
                     <div className={styles.divRelease}>
-                    {/* <button onClick={releaseEscrowNativeCoinOwner}>Liberar TRX</button> */}
+                    {/* <button onClick={releaseEscrowNativeCoinOwner}>Liberar ETH</button> */}
                     <button onClick={releaseEscrowNativeCoinOwner}>Liberar ETH</button>
                     </div>
                   </div>
@@ -932,7 +952,7 @@ if (userBalance.data != null){
                     Retirar Fees USDT
                   </button>
                   <button className={styles.withdrawButton} onClick={withdrawFeesNativeCoin}>
-                    {/* Retirar Fees TRX */}
+                    {/* Retirar Fees ETH */}
                     Retirar Fees ETH
                   </button>
                 </div>
@@ -942,16 +962,14 @@ if (userBalance.data != null){
                       className={styles.button}
                       onClick={() => setSelectedTab("Anuncio USDT")}
                     >
-                      Crear anuncio USDT
+                      Crear anuncio 
                     </button>
-                    <button
+                    {/* <button
                       className={styles.button}
-                      // onClick={() => setSelectedTab("Anuncio TRX")}
                       onClick={() => setSelectedTab("Anuncio ETH")}
                     >
-                      {/* Crear anuncio TRX */}
                       Crear anuncio ETH
-                    </button>
+                    </button> */}
                   </div>
                   {renderTabs()}
                   </div>

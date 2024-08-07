@@ -588,8 +588,8 @@ contract USDTToken is ERC20PresetFixedSupply {
 
     constructor()
         ERC20PresetFixedSupply(
-            "USD TronPay test (ERC20) Token",
-            "TPAYTEST",
+            "USD Towerbank test (ERC20) Token",
+            "TBANKTEST",
             50000000000000000000000000,
             msg.sender
         )

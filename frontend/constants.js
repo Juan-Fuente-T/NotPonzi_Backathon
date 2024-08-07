@@ -1,4 +1,4 @@
-export const TronPayAddress =
+export const TowerbankAddress =
     "0xA2E1Ab50F03A5A30cd69B1D68A80Fd07619e7e4B";//SEPOLIA
 export const USDTAddress =
 	"0x613d1c95D577F4A0C24898ca7Dd631cCD38C6713"; //SEPOLIA
@@ -10,7 +10,7 @@ export const USDTAddress =
 
 export const WalletConnectId="020d96200cf7abe2c330462149908c36";
 
-export const TronPayABI = [
+export const TowerbankABI = [
 	{
 		"inputs": [
 			{

@@ -4,13 +4,13 @@ import React from 'react';
   function ModalResumen({ datosModal, crearAnuncio, onCloseModal }) {
   return (
     <div className="modal">
-      <p>{ datosModal.usdtSeleccionado? "USDT" : "TRX"}</p>
+      <p>{ datosModal.usdtSeleccionado? "USDT" : "ETH"}</p>
       <p>Cantidad disponible: { datosModal.amount}</p>
       <p>Precio por unidad: { datosModal.price}</p>
       <p>Límite máximo de venta: { datosModal.maximo}</p>
       <p>Límite mínimo de venta: { datosModal.minimo}</p>
-      <p>Modo de pago: { datosModal.payment_mode}</p>
-      <p>Ubicación: { datosModal.location}</p>
+      {/* <p>Modo de pago: { datosModal.payment_mode}</p>
+      <p>Ubicación: { datosModal.location}</p> */}
       <p>Condiciones de venta: { datosModal.conditions}</p>
       <button onClick={onCloseModal}>Cancelar</button>
       {/* <button onClick={crearOferta}>Aceptar</button> */}
