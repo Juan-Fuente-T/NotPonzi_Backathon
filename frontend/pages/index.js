@@ -588,7 +588,7 @@ if (userBalance.data != null){
           address: TowerbankAddress,
           abi: TowerbankABI,
           functionName: 'createEscrow',
-          args: [ address, totalInt, '0x199Dd2CF531F8a1969dbd2c8c33dC7D690811df4' ],      
+          args: [ address, totalInt, USDTAddress ],      
         });
       }
         
