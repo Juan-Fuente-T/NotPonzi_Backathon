@@ -96,12 +96,12 @@ contract Towerbank is ReentrancyGuard, Ownable {
         EscrowStatus status;
     }
 
-    constructor(address _token, uint256 _newFeeSeller, uint256 _newFeeBuyer, uint256 _maxFeeAllowed, uint256 _percentageDivisor) {
+    constructor(address _token, uint256 _maxFeeAllowed, uint256 _percentageDivisor, uint256 _newFeeSeller, uint256 _newFeeBuyer) {
         whitelistToken[_token] = true;
-        setFeeSeller(_newFeeSeller);
-        setFeeBuyer(_newFeeBuyer);
         maxFeeAllowed = _maxFeeAllowed;
-        percentageDivisor = _percentageDivisor;        
+        percentageDivisor = _percentageDivisor;
+        setFeeSeller(_newFeeSeller);
+        setFeeBuyer(_newFeeBuyer);                
     }
 
     // ================== Begin External functions ==================          
@@ -133,12 +133,16 @@ contract Towerbank is ReentrancyGuard, Ownable {
     function createEscrowToken(uint256 _amountToSell, uint256 _price, IERC20 _token) external nonReentrant {
         _sellerValidation(_amountToSell, _price, _token);
         uint256 feeSellerPercentage = getFeeSeller();
-        uint256 sellerFeeAmount = _calculateAmountFee(_amountToSell, feeSellerPercentage);
-        if (_amountToSell + sellerFeeAmount > _token.allowance(msg.sender, address(this))) {
+        uint256 sellerFeeAmount = _calculateAmountFee(_amountToSell, feeSellerPercentage);        
+        uint256 totalToTransfer = _amountToSell + sellerFeeAmount;
+        uint256 converterWeisToEntireNumber = totalToTransfer / 10**_token.decimals();
+
+        if (converterWeisToEntireNumber > _token.allowance(msg.sender, address(this))) {
             revert SellerApproveEscrowFirst();
         }
+        
         // Transfer USDT from seller to contract
-        _token.safeTransferFrom(msg.sender, address(this), (_amountToSell + sellerFeeAmount));
+        _token.safeTransferFrom(msg.sender, address(this), (converterWeisToEntireNumber));
         orderId ++;
         escrows[orderId] = Escrow(
             payable(address(0)),
@@ -179,7 +183,7 @@ contract Towerbank is ReentrancyGuard, Ownable {
         _sellerValidation(_amountToSell, _price, _token);
         uint256 feeSellerPercentage = getFeeSeller();
         uint256 sellerFeeAmount = _calculateAmountFee(_amountToSell, feeSellerPercentage);
-        if (msg.value < (_amountToSell + sellerFeeAmount) * 1 ether) {
+        if (msg.value < (_amountToSell + sellerFeeAmount)) {
             revert IncorretAmount();
         }
         orderId ++;
@@ -239,24 +243,27 @@ contract Towerbank is ReentrancyGuard, Ownable {
         }
         uint256 feeBuyerPercentage = getFeeBuyer();
         uint256 buyerFeeAmount = _calculateAmountFee(escrow.amountToSell, feeBuyerPercentage);
-        if (escrow.isEscrowEther) {
-            if (escrow.price > escrow.token.allowance(msg.sender, address(this))) {
+        uint256 converterWeisToEntireNumber = escrow.price / 10**6;
+        if (escrow.isEscrowEther) {            
+            if (converterWeisToEntireNumber > escrow.token.allowance(msg.sender, address(this))) {
                 revert BuyerApproveEscrowFirst();
             }
             availableEtherFees += buyerFeeAmount + escrow.sellerFeeAmount;
             // Transfer tokens from buyer to seller
-            escrow.token.safeTransferFrom(msg.sender, escrow.seller, escrow.price);
+            escrow.token.safeTransferFrom(msg.sender, escrow.seller, converterWeisToEntireNumber);
             // Transfer ETH from contract to buyer
-            (bool buyerSent, ) = payable(msg.sender).call{value: (escrow.amountToSell - buyerFeeAmount) * 1 ether}("");
+            (bool buyerSent, ) = payable(msg.sender).call{value: (escrow.amountToSell - buyerFeeAmount)}("");
             require(buyerSent, "Transfer to buyer failed");
         } else {
             availableTokenFees[escrow.token] += buyerFeeAmount + escrow.sellerFeeAmount;
             // Transfer ETH from buyer to seller
             require(msg.value == escrow.price, "Insufficient ETH value sent");
-            (bool sellerSent, ) = escrow.seller.call{value: escrow.price * 1 ether}("");
+            (bool sellerSent, ) = escrow.seller.call{value: escrow.price}("");
             require(sellerSent, "Transfer to seller failed");
+            uint256 total = escrow.amountToSell - buyerFeeAmount;
+            uint256 converterWeisToEntireNumber2 = total / 10**6;
             // Transfer tokens from contract to buyer
-            escrow.token.safeTransfer(msg.sender, escrow.amountToSell - buyerFeeAmount);
+            escrow.token.safeTransfer(msg.sender, converterWeisToEntireNumber2);            
         }
         escrow.buyerFeeAmount = buyerFeeAmount;
         escrow.buyer = payable(msg.sender);
@@ -421,7 +428,7 @@ contract Towerbank is ReentrancyGuard, Ownable {
         if (_amountToSell <= 0 || _price <= 0) {
             revert ValueMustBeGreaterThan0();
         }
-    }    
+    }
 
     /// =================== End Private functions ====================   
     
